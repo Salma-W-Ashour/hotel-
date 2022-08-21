@@ -6,16 +6,12 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<MainPage />} />
-        <Route
-          path="a"
-          element={
-            <div className="flex">
-              <div className="grow h-14">01</div>
-              <div className="grow-0 h-14">02</div>
-              <div className="grow h-14">03</div>
-            </div>
-          }
-        />
+        <Route path="About" element={<></>} />
+        <Route path="Services" element={<></>} />
+        <Route path="Contact-us" element={<></>} />
+        <Route path="Dashboard" element={<></>} />
+        <Route path="work" element={<></>} />
+        <Route path="*" element{<></>} />
       </Routes>
     </BrowserRouter>
   );
