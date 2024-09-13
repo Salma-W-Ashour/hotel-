@@ -6,7 +6,7 @@ import logo from "./sharedmedia/logo.png";
 const navigation = [
   { name: "Home", href: "/", current: true },
   { name: "About", href: "#about", current: false },
-  { name: "Works", href: "#works", current: false },
+  { name: "Works ", href: "#works", current: false },
   { name: "Services", href: "#services", current: false },
   { name: "Contact Us", href: "contact-us", current: false },
   { name: "Dashboard", href: "dashboard", current: false },

@@ -11,7 +11,7 @@ function App() {
         <Route path="Contact-us" element={<></>} />
         <Route path="Dashboard" element={<></>} />
         <Route path="work" element={<></>} />
-        <Route path="*" element{<></>} />
+        <Route path="*" element={<></>} />
       </Routes>
     </BrowserRouter>
   );
