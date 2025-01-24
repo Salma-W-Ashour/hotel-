@@ -20,7 +20,7 @@ export default function Navbar() {
   return (
     <Disclosure
       as="nav"
-      className="fixed top-0 left-0 right-0 z-10 bg-white-900 "
+      className="fixed top-0 left-0 right-0 z-50 bg-white-900 "
     >
       {({ open }) => (
         <>
