@@ -3,7 +3,6 @@ import MainPage from "./Components/MainPage";
 import Contact from "./Components/contact";
 import About from "./Components/about";
 import Hotels from "./Components/hotels";
-
 function App() {
   return (
     <BrowserRouter>

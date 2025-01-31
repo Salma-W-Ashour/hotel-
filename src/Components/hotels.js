@@ -1,9 +1,11 @@
 import React from "react";
+import Header from "./Header";
 
 export default function Hotels() {
   return (
     <>
-      <main class="flex-grow container mx-auto px-4 py-8">
+      <Header />
+      <main class="flex-grow container mx-auto px-4 py-24">
         <div class="bg-blue-600 text-white p-6 rounded-lg shadow-lg mb-8">
           <h1 class="text-4xl font-bold text-center">Global Hotels Explorer</h1>
           <div class="flex justify-center mt-4">
@@ -197,3 +199,4 @@ export default function Hotels() {
     </>
   );
 }
+// export default Hotels;
