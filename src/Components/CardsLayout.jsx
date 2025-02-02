@@ -6,27 +6,27 @@ let arr = [
     description: "This is a description for Card 0.",
     img: "imgs/bedroom-5664221_640.jpg",
   },
-  {
-    roomNum: "One Bedroom",
-    description:
-      "This is a description for Card .This is a description for Card ",
-    img: "imgs/bedroom-5664221_640.jpg",
-  },
-  {
-    roomNum: "One Bedroom",
-    description: "This is a description for Card .",
-    img: "imgs/bedroom-5664221_640.jpg",
-  },
-  {
-    roomNum: "One Bedroom",
-    description: "This is a description for Card .",
-    img: "imgs/bedroom-5664221_640.jpg",
-  },
-  {
-    roomNum: "One Bedroom",
-    description: "This is a description for Card .",
-    img: "imgs/bedroom-5664221_640.jpg",
-  },
+  // {
+  //   roomNum: "One Bedroom",
+  //   description:
+  //     "This is a description for Card .This is a description for Card ",
+  //   img: "imgs/bedroom-5664221_640.jpg",
+  // },
+  // {
+  //   roomNum: "One Bedroom",
+  //   description: "This is a description for Card .",
+  //   img: "imgs/bedroom-5664221_640.jpg",
+  // },
+  // {
+  //   roomNum: "One Bedroom",
+  //   description: "This is a description for Card .",
+  //   img: "imgs/bedroom-5664221_640.jpg",
+  // },
+  // {
+  //   roomNum: "One Bedroom",
+  //   description: "This is a description for Card .",
+  //   img: "imgs/bedroom-5664221_640.jpg",
+  // },
   {
     roomNum: "One Bedroom",
     description: "This is a description for Card .",

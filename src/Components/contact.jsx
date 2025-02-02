@@ -1,9 +1,12 @@
 import React from "react";
+import Header from "./Header";
+import Footer from "./Footer";
 
 export default function Contact() {
   console.log("Text");
   return (
     <>
+      <Header />
       <section
         className="relative bg-cover bg-center h-96"
         style={{
@@ -54,12 +57,12 @@ export default function Contact() {
                 <label for="message" className="block text-gray-700">
                   Your Message
                 </label>
-                {/* <textarea
+                <textarea
                   id="message"
                   className="w-full border border-gray-300 rounded p-3 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400"
-                ></textarea> */}
+                ></textarea>
               </div>
-              <button className="bg-blue-900 text-white px-72 py-3 rounded hover:bg-yellow-400">
+              <button className="bg-blue-900 text-white px-56 py-3 rounded hover:bg-yellow-400 items-center justify-center">
                 Send Message
               </button>
             </form>
@@ -120,6 +123,7 @@ export default function Contact() {
           </form>
         </div>
       </section>
+      <Footer />
     </>
   );
 }

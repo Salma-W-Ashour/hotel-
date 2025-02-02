@@ -5,7 +5,7 @@ export default function OurVision() {
     <section
       className="relative bg-cover bg-center h-screen"
       style={{
-        backgroundImage: "url('/imgs/pexels-pixabay-258154.jpg')",
+        backgroundImage: "url('imgs/nav-and-hero-final (1).jpg')",
       }}
     >
       {/* <div className="absolute inset-0 bg-black bg-opacity-50"></div> */}

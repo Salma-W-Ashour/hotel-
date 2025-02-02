@@ -3,13 +3,14 @@ import MainPage from "./Components/MainPage";
 import Contact from "./Components/contact";
 import About from "./Components/about";
 import Hotels from "./Components/hotels";
+import Services from "./Components/services";
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/About" element={<About />} />
-        <Route path="Services" element={<></>} />
+        <Route path="Services" element={<Services />} />
         <Route path="/Contact-Us" element={<Contact />} />
         <Route path="/Hotels" element={<Hotels />} />
         <Route path="Dashboard" element={<></>} />

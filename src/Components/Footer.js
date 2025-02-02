@@ -43,7 +43,7 @@ export default function Footer() {
           </div>
           <div>
             <h4 class="text-xl font-bold mb-4">Contact Us</h4>
-            <button class="bg-yellow-400 text-navy-800 px-6 py-2 rounded-lg hover:bg-yellow-500">
+            <button class="bg-yellow-400 text-navy-800 px-6 py-2 rounded-lg hover:bg-yellow-400 hover:scale-105">
               Contact Us
             </button>
           </div>

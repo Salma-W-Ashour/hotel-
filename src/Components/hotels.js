@@ -1,5 +1,6 @@
 import React from "react";
 import Header from "./Header";
+import Footer from "./Footer";
 
 export default function Hotels() {
   return (
@@ -196,6 +197,7 @@ export default function Hotels() {
           </button>
         </div>
       </main>
+      <Footer />
     </>
   );
 }

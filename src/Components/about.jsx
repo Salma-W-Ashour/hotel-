@@ -1,9 +1,12 @@
 import React from "react";
+import Header from "./Header";
+import Footer from "./Footer";
 
 export default function About() {
   return (
     <>
-      <div class="relative text-white py-20">
+      <Header />
+      <div class="relative text-white py-20 mt-20 pt-20">
         {
           // <!-- Background Image -->
         }
@@ -100,7 +103,7 @@ export default function About() {
       {
         // <!-- Services Section -->
       }
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-20">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-20 mb-10">
         <div class="text-center p-8 bg-white rounded-lg shadow-lg">
           <div class="w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center mx-auto mb-4">
             <img src="imgs/home (1).png" alt="Home Icon" class="w-8 h-8" />
@@ -135,6 +138,7 @@ export default function About() {
           </p>
         </div>
       </div>
+      <Footer />
     </>
   );
 }
