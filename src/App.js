@@ -1,24 +1,33 @@
-import { Routes, Route, BrowserRouter } from "react-router-dom";
-import MainPage from "./Components/MainPage";
-import Contact from "./Components/contact";
-import About from "./Components/about";
-import Hotels from "./Components/hotels";
-import Services from "./Components/services";
-function App() {
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import HomePage from "./Pages/HomePage";
+import Contact from "./Pages/ContactUsPage";
+import About from "./Pages/AboutUsPage";
+import Hotels from "./Pages/HotelsPage";
+import Services from "./Pages/OurServicesPage";
+// import NotFound from "./Components/pages/NotFound"; // صفحة خطأ 404
+
+import DashboardHome from "./AdminPanel/Dashboard/DashboardHome";
+import AdminLayout from "./AdminPanel/Layout/AdminLayout";
+import AdminRoutes from "./AdminPanel/Routes/AdminRoutes";
+
+const App = () => {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<MainPage />} />
-        <Route path="/About" element={<About />} />
-        <Route path="Services" element={<Services />} />
-        <Route path="/Contact-Us" element={<Contact />} />
-        <Route path="/Hotels" element={<Hotels />} />
-        <Route path="Dashboard" element={<></>} />
-        <Route path="work" element={<></>} />
-        <Route path="*" element={<></>} />
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/about" element={<About />} />
+      <Route path="/services" element={<Services />} />
+      <Route path="/contact-us" element={<Contact />} />
+      <Route path="/hotels" element={<Hotels />} />
+      {/* <Route path="*" element={<NotFound />} /> */}
+
+      {/* لوحة التحكم */}
+      <Route path="/admin/*" element={<AdminRoutes />} />
+
+      {/* <Route path="Dashboard" element={<></>} /> */}
+      {/* <Route path="work" element={<></>} /> */}
+    </Routes>
   );
-}
+};
 
 export default App;
