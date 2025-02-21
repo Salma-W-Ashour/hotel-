@@ -1,31 +1,32 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import HomePage from "./Pages/HomePage";
-import Contact from "./Pages/ContactUsPage";
-import About from "./Pages/AboutUsPage";
-import Hotels from "./Pages/HotelsPage";
-import Services from "./Pages/OurServicesPage";
-// import NotFound from "./Components/pages/NotFound"; // صفحة خطأ 404
 
-import DashboardHome from "./AdminPanel/Dashboard/DashboardHome";
-import AdminLayout from "./AdminPanel/Layout/AdminLayout";
-import AdminRoutes from "./AdminPanel/Routes/AdminRoutes";
+import LoginPage from "./Auth/LoginPage";
+import SignUpPage from "./Auth/SignUpPage";
+
+import HomePage from "./Pages/HomePage";
+import About from "./Pages/AboutUsPage";
+import Services from "./Pages/OurServicesPage";
+import Hotels from "./Pages/HotelsPage";
+import Contact from "./Pages/ContactUsPage";
+import NotFoundPage from "./Pages/NotFoundPage"; // صفحة خطأ 404
+
+// import AdminLayout from "./Admin/Layout/AdminLayout";
+import AdminRoutes from "./Admin/Routes/AdminRoutes";
 
 const App = () => {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/about" element={<About />} />
+      <Route path="/hotels" element={<Hotels />} />
       <Route path="/services" element={<Services />} />
       <Route path="/contact-us" element={<Contact />} />
-      <Route path="/hotels" element={<Hotels />} />
-      {/* <Route path="*" element={<NotFound />} /> */}
 
-      {/* لوحة التحكم */}
+      <Route path="/sign-in" element={<LoginPage />} />
+      <Route path="/sign-up" element={<SignUpPage />} />
       <Route path="/admin/*" element={<AdminRoutes />} />
-
-      {/* <Route path="Dashboard" element={<></>} /> */}
-      {/* <Route path="work" element={<></>} /> */}
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 };
