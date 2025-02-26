@@ -1,11 +1,17 @@
 import React from "react";
-import { useNavigate } from "react-router-dom"; // إذا كنت تستخدم React Router
+import { useNavigate } from "react-router-dom"; // التنقل بين الصفحات
+import { useAuth } from "../../Auth/context/AuthContext";
 
 const OurGuest = () => {
-  const navigate = useNavigate(); // استخدام الدالة للتنقل
+  const navigate = useNavigate();
+  const { user } = useAuth(); // التحقق مما إذا كان المستخدم مسجلاً
 
-  const handleSignUp = () => {
-    navigate("/signup"); // التنقل إلى صفحة التسجيل
+  const handleClick = () => {
+    if (user) {
+      navigate("/hotels"); // إذا كان المستخدم مسجلاً، انتقل إلى صفحة الفنادق
+    } else {
+      navigate("/sign-up"); // إذا لم يكن مسجلاً، انتقل إلى صفحة التسجيل
+    }
   };
 
   return (
@@ -18,8 +24,6 @@ const OurGuest = () => {
         />
       </div>
       <div className="w-full md:w-2/3 flex flex-col gap-4 md:gap-6 md:ml-10">
-        {" "}
-        {/* تم إضافة md:ml-10 هنا */}
         <h1 className="text-3xl font-bold text-gray-800 text-center md:text-left">
           Be Our Guest!
         </h1>
@@ -32,10 +36,12 @@ const OurGuest = () => {
           without a stay.
         </p>
         <button
-          className="mt-6 bg-blue-900 text-white px-6 py-2 rounded-lg hover:bg-yellow-400 transition"
-          onClick={handleSignUp}
+          className="mt-6 px-6 py-2 rounded-lg transition 
+            text-white font-semibold 
+            bg-blue-900 hover:bg-yellow-400 hover:scale-105"
+          onClick={handleClick}
         >
-          Sign up
+          {user ? "Go to Hotels" : "Sign up"}
         </button>
       </div>
     </div>

@@ -3,6 +3,7 @@ import Header from "../Components/Layout/Header";
 import Footer from "../Components/Layout/Footer";
 import classNames from "classnames";
 import { FaBed, FaRegStar, FaMapMarkerAlt, FaClock } from "react-icons/fa";
+import { useAuth } from "../Auth/context/AuthContext";
 
 // مكون إحصائيات
 const Statistic = ({ icon, count, label }) => (
@@ -33,7 +34,72 @@ const ServiceCard = ({ service, index }) => (
   </div>
 );
 
+const FAQAccordion = () => {
+  return (
+    <div className="my-10 px-6 py-10 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-xl shadow-xl">
+      <h2 className="text-4xl font-bold text-center text-white mb-6">
+        Frequently Asked Questions
+      </h2>
+      <div className="space-y-4">
+        {/* Question 1 */}
+        <details className="group bg-white rounded-lg shadow-md">
+          <summary className="cursor-pointer text-xl font-semibold py-3 px-4 text-gray-800 group-open:text-yellow-500 transition-all ease-in-out duration-300">
+            What are the check-in and check-out times?
+          </summary>
+          <div className="px-4 py-2 text-gray-600 bg-gray-50 rounded-b-lg transition-all ease-in-out duration-300">
+            Our standard check-in time is 3:00 PM, and check-out is by 12:00 PM.
+          </div>
+        </details>
+
+        {/* Question 2 */}
+        <details className="group bg-white rounded-lg shadow-md">
+          <summary className="cursor-pointer text-xl font-semibold py-3 px-4 text-gray-800 group-open:text-yellow-500 transition-all ease-in-out duration-300">
+            Do you offer room service?
+          </summary>
+          <div className="px-4 py-2 text-gray-600 bg-gray-50 rounded-b-lg transition-all ease-in-out duration-300">
+            Yes, we offer 24/7 room service for all of our guests.
+          </div>
+        </details>
+
+        {/* Question 3 */}
+        <details className="group bg-white rounded-lg shadow-md">
+          <summary className="cursor-pointer text-xl font-semibold py-3 px-4 text-gray-800 group-open:text-yellow-500 transition-all ease-in-out duration-300">
+            Is breakfast included in the room rate?
+          </summary>
+          <div className="px-4 py-2 text-gray-600 bg-gray-50 rounded-b-lg transition-all ease-in-out duration-300">
+            Yes, breakfast is included with all room bookings.
+          </div>
+        </details>
+
+        {/* Additional Question (Common among users) */}
+        <details className="group bg-white rounded-lg shadow-md">
+          <summary className="cursor-pointer text-xl font-semibold py-3 px-4 text-gray-800 group-open:text-yellow-500 transition-all ease-in-out duration-300">
+            How can I modify or cancel my booking?
+          </summary>
+          <div className="px-4 py-2 text-gray-600 bg-gray-50 rounded-b-lg transition-all ease-in-out duration-300">
+            You can modify or cancel your booking directly through our website
+            or by contacting our customer support team.
+          </div>
+        </details>
+
+        {/* Additional Question (Common among users) */}
+        <details className="group bg-white rounded-lg shadow-md">
+          <summary className="cursor-pointer text-xl font-semibold py-3 px-4 text-gray-800 group-open:text-yellow-500 transition-all ease-in-out duration-300">
+            Do you have parking available?
+          </summary>
+          <div className="px-4 py-2 text-gray-600 bg-gray-50 rounded-b-lg transition-all ease-in-out duration-300">
+            Yes, we provide free parking for all our guests in our hotel parking
+            lot.
+          </div>
+        </details>
+      </div>
+    </div>
+  );
+};
+
 const About = () => {
+  const { user } = useAuth();
+
   const services = [
     {
       icon: "home (1).png",
@@ -102,7 +168,7 @@ const About = () => {
                     <img
                       src="imgs/icons8-premium-100.png"
                       alt="Premium Room Service Icon"
-                      class="mr-2 w-6 h-6"
+                      className="mr-2 w-6 h-6"
                     />
                   ),
                   text: "Premium Room Service",
@@ -112,7 +178,7 @@ const About = () => {
                     <img
                       src="imgs/clock.png"
                       alt="Concierge Support Icon"
-                      class="mr-2 w-6 h-6"
+                      className="mr-2 w-6 h-6"
                     />
                   ),
                   text: "24/7 Concierge Support",
@@ -122,7 +188,7 @@ const About = () => {
                     <img
                       src="imgs/sparkles.509x512.png"
                       alt="Luxury Amenities Icon"
-                      class="mr-2 w-6 h-6"
+                      className="mr-2 w-6 h-6"
                     />
                   ),
                   text: "Luxury Amenities",
@@ -174,6 +240,8 @@ const About = () => {
         ))}
       </div>
 
+      {/* Conditionally render the FAQ accordion */}
+      {user && <FAQAccordion />}
       <Footer />
     </React.Fragment>
   );

@@ -1,12 +1,12 @@
 import React from "react";
 
-const OurVision = () => {
+const OurVision = ({ handleBookNow, user }) => {
   return (
     <section
       className="relative bg-center bg-no-repeat"
       style={{
         backgroundImage: "url('imgs/OIP.jpeg')",
-        backgroundSize: "cover", // تأكد من أن الصورة تملأ الشاشة
+        backgroundSize: "cover",
         backgroundPosition: "center center",
       }}
     >
@@ -24,12 +24,14 @@ const OurVision = () => {
             vacation, <br />
             and enjoy some much-needed private relaxation.
           </p>
-          <a
-            href="#"
+
+          {/* زر يتغير حسب حالة تسجيل الدخول */}
+          <button
+            onClick={handleBookNow}
             className="bg-yellow-400 hover:bg-blue-900 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 transform hover:scale-110"
           >
-            Book Now
-          </a>
+            {user ? "Go to Hotels" : "Book Now"}
+          </button>
         </div>
       </div>
     </section>

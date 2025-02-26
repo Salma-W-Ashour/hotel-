@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -43,9 +44,11 @@ const Footer = () => {
           </div>
           <div>
             <h4 className="text-xl font-bold mb-4">Contact Us</h4>
-            <button className="bg-yellow-400 text-blue-900 font-semibold px-6 py-2 rounded-lg hover:bg-yellow-500 hover:scale-105 transition">
-              Contact Us
-            </button>
+            <Link to="/contact-us">
+              <button className="bg-yellow-400 text-blue-900 font-semibold px-6 py-2 rounded-lg hover:bg-yellow-500 hover:scale-105 transition">
+                Contact Us
+              </button>
+            </Link>
           </div>
         </div>
       </div>

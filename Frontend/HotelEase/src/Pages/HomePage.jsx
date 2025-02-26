@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router";
+import { FaArrowUp } from "react-icons/fa";
+import { useAuth } from "../Auth/context/AuthContext";
 
 import CardsLayout from "../Components/HomePage/CardsLayout";
 import Header from "../Components/Layout/Header";
@@ -7,7 +10,8 @@ import OurServices from "../Components/HomePage/OurServices";
 import OurVision from "../Components/HomePage/OurVision";
 import Footer from "../Components/Layout/Footer";
 
-import { FaArrowUp } from "react-icons/fa";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Advantage = ({ imgSrc, title, description }) => {
   return (
@@ -54,6 +58,25 @@ const HomePage = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [shouldRender, setShouldRender] = useState(false);
 
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  const handleBookNow = () => {
+    if (!user) {
+      toast.info("Please log in to make a booking.", {
+        position: "top-right",
+        autoClose: 3000,
+      });
+
+      // التوجيه لصفحة تسجيل الدخول بعد 3 ثوانٍ
+      setTimeout(() => {
+        navigate("/sign-in");
+      }, 3000);
+    } else {
+      navigate("/hotels"); // إذا كان المستخدم مسجلاً، يتم توجيهه إلى صفحة الفنادق
+    }
+  };
+
   useEffect(() => {
     const toggleVisibility = () => {
       if (window.scrollY > 300) {
@@ -69,14 +92,15 @@ const HomePage = () => {
     return () => window.removeEventListener("scroll", toggleVisibility);
   }, []);
 
-  // if (!shouldRender) return null; // لا يتم عرض الزر إلا عند الحاجة
-
   return (
     <div className="min-h-screen">
+      {/* عنصر Toastify لعرض التنبيهات */}
+      <ToastContainer />
+
       <Header />
 
       <div className="bg-gray-100">
-        <OurVision />
+        <OurVision handleBookNow={handleBookNow} user={user} />
 
         <section className="p-16 px-6 text-center">
           <h2 className="text-4xl sm:text-5xl font-bold mb-12">
@@ -114,7 +138,6 @@ const HomePage = () => {
         <FaArrowUp className="inline-block mr-2" fontSize={24} />
         UP
       </button>
-
       <Footer />
     </div>
   );

@@ -1,7 +1,14 @@
 import React, { useCallback, useState } from "react";
+import { Link } from "react-router-dom";
+import { Heart } from "lucide-react";
 import Header from "../Components/Layout/Header";
 import Footer from "../Components/Layout/Footer";
-import { Heart } from "lucide-react";
+import { useAuth } from "../Auth/context/AuthContext";
+import ReactPaginate from "react-paginate";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import { MenuItem, Select, InputLabel, FormControl } from "@mui/material";
 
 // بيانات الفنادق
 const hotelsData = [
@@ -47,6 +54,254 @@ const hotelsData = [
       { name: "Food", color: "bg-pink-50 text-pink-800 ring-pink-600/20" },
     ],
   },
+  {
+    id: 4,
+    name: "City Grand Hotel",
+    location: "New York, USA",
+    price: "$280/night",
+    rating: 4.7,
+    image: "/imgs/citygrand.jpeg",
+    tag: { text: "Luxury Stay", color: "bg-blue-400 text-white" },
+    features: [
+      { name: "WiFi", color: "bg-gray-50 text-gray-600 ring-gray-500/10" },
+      { name: "Gym", color: "bg-red-50 text-red-700 ring-red-600/10" },
+      {
+        name: "Business Center",
+        color: "bg-yellow-50 text-yellow-800 ring-yellow-600/20",
+      },
+      {
+        name: "Room Service",
+        color: "bg-blue-50 text-blue-700 ring-blue-600/20",
+      },
+      {
+        name: "Free Breakfast",
+        color: "bg-green-50 text-green-700 ring-green-600/10",
+      },
+    ],
+  },
+  {
+    id: 5,
+    name: "Desert Oasis Resort",
+    location: "Dubai, UAE",
+    price: "$500/night",
+    rating: 4.8,
+    image: "imgs/dubai_oasis.jpeg",
+    tag: { text: "Luxury Retreat", color: "bg-gold-400 text-white" },
+    features: [
+      { name: "WiFi", color: "bg-gray-50 text-gray-600 ring-gray-500/10" },
+      {
+        name: "Infinity Pool",
+        color: "bg-blue-50 text-blue-600 ring-blue-500/10",
+      },
+      { name: "Spa", color: "bg-yellow-50 text-yellow-800 ring-yellow-600/20" },
+      {
+        name: "Private Beach",
+        color: "bg-teal-50 text-teal-700 ring-teal-600/20",
+      },
+    ],
+  },
+  {
+    id: 6,
+    name: "Santorini Cliff Suites",
+    location: "Santorini, Greece",
+    price: "$350/night",
+    rating: 4.9,
+    image: "imgs/santorini.jpeg",
+    tag: { text: "Romantic Escape", color: "bg-pink-400 text-white" },
+    features: [
+      { name: "WiFi", color: "bg-gray-50 text-gray-600 ring-gray-500/10" },
+      { name: "Sea View", color: "bg-blue-50 text-blue-600 ring-blue-500/10" },
+      { name: "Hot Tub", color: "bg-red-50 text-red-700 ring-red-600/10" },
+    ],
+  },
+  {
+    id: 7,
+    name: "Safari Wilderness Lodge",
+    location: "Serengeti, Tanzania",
+    price: "$420/night",
+    rating: 4.7,
+    image: "imgs/serengeti.jpeg",
+    tag: { text: "Adventure", color: "bg-orange-400 text-white" },
+    features: [
+      { name: "WiFi", color: "bg-gray-50 text-gray-600 ring-gray-500/10" },
+      {
+        name: "Safari Tours",
+        color: "bg-green-50 text-green-700 ring-green-600/10",
+      },
+      {
+        name: "Outdoor Dining",
+        color: "bg-yellow-50 text-yellow-800 ring-yellow-600/20",
+      },
+    ],
+  },
+  {
+    id: 8,
+    name: "Maldives Water Villas",
+    location: "Maldives",
+    price: "$650/night",
+    rating: 5.0,
+    image: "imgs/maldives.jpeg",
+    tag: { text: "Exclusive", color: "bg-blue-500 text-white" },
+    features: [
+      { name: "WiFi", color: "bg-gray-50 text-gray-600 ring-gray-500/10" },
+      {
+        name: "Private Pool",
+        color: "bg-blue-50 text-blue-600 ring-blue-500/10",
+      },
+      {
+        name: "Snorkeling",
+        color: "bg-teal-50 text-teal-700 ring-teal-600/20",
+      },
+    ],
+  },
+  {
+    id: 9,
+    name: "Parisian Elegance Hotel",
+    location: "Paris, France",
+    price: "$370/night",
+    rating: 4.6,
+    image: "imgs/paris.jpeg",
+    tag: { text: "Charming Stay", color: "bg-purple-400 text-white" },
+    features: [
+      { name: "WiFi", color: "bg-gray-50 text-gray-600 ring-gray-500/10" },
+      { name: "City View", color: "bg-pink-50 text-pink-700 ring-pink-600/10" },
+      {
+        name: "Fine Dining",
+        color: "bg-yellow-50 text-yellow-800 ring-yellow-600/20",
+      },
+    ],
+  },
+  {
+    id: 10,
+    name: "Sydney Harbour Retreat",
+    location: "Sydney, Australia",
+    price: "$300/night",
+    rating: 4.5,
+    image: "imgs/sydney.jpeg",
+    tag: { text: "Best View", color: "bg-cyan-400 text-white" },
+    features: [
+      { name: "WiFi", color: "bg-gray-50 text-gray-600 ring-gray-500/10" },
+      {
+        name: "Harbour View",
+        color: "bg-blue-50 text-blue-600 ring-blue-500/10",
+      },
+      {
+        name: "Rooftop Pool",
+        color: "bg-indigo-50 text-indigo-700 ring-indigo-600/20",
+      },
+    ],
+  },
+  {
+    id: 11,
+    name: "Tokyo Skyline Hotel",
+    location: "Tokyo, Japan",
+    price: "$400/night",
+    rating: 4.8,
+    image: "imgs/tokyo.jpg",
+    tag: { text: "Urban Luxury", color: "bg-red-400 text-white" },
+    features: [
+      { name: "WiFi", color: "bg-gray-50 text-gray-600 ring-gray-500/10" },
+      {
+        name: "Skyline View",
+        color: "bg-blue-50 text-blue-600 ring-blue-500/10",
+      },
+      {
+        name: "Fine Dining",
+        color: "bg-yellow-50 text-yellow-800 ring-yellow-600/20",
+      },
+    ],
+  },
+  {
+    id: 12,
+    name: "Swiss Alps Chalet",
+    location: "Zermatt, Switzerland",
+    price: "$550/night",
+    rating: 4.9,
+    image: "imgs/switzerland.jpg",
+    tag: { text: "Mountain Retreat", color: "bg-green-400 text-white" },
+    features: [
+      { name: "WiFi", color: "bg-gray-50 text-gray-600 ring-gray-500/10" },
+      {
+        name: "Ski Access",
+        color: "bg-blue-50 text-blue-600 ring-blue-500/10",
+      },
+      { name: "Hot Tub", color: "bg-red-50 text-red-700 ring-red-600/10" },
+    ],
+  },
+  {
+    id: 13,
+    name: "New York Central Suites",
+    location: "New York, USA",
+    price: "$480/night",
+    rating: 4.7,
+    image: "imgs/newyork.jpg",
+    tag: { text: "City Central", color: "bg-indigo-400 text-white" },
+    features: [
+      { name: "WiFi", color: "bg-gray-50 text-gray-600 ring-gray-500/10" },
+      { name: "City View", color: "bg-blue-50 text-blue-600 ring-blue-500/10" },
+      {
+        name: "Rooftop Lounge",
+        color: "bg-purple-50 text-purple-700 ring-purple-600/20",
+      },
+    ],
+  },
+  {
+    id: 14,
+    name: "Amazon Rainforest Lodge",
+    location: "Amazon, Brazil",
+    price: "$320/night",
+    rating: 4.6,
+    image: "imgs/amazon.jpg",
+    tag: { text: "Eco Adventure", color: "bg-green-500 text-white" },
+    features: [
+      { name: "WiFi", color: "bg-gray-50 text-gray-600 ring-gray-500/10" },
+      {
+        name: "Guided Tours",
+        color: "bg-teal-50 text-teal-700 ring-teal-600/20",
+      },
+      {
+        name: "Outdoor Dining",
+        color: "bg-yellow-50 text-yellow-800 ring-yellow-600/20",
+      },
+    ],
+  },
+  {
+    id: 15,
+    name: "Rome Heritage Hotel",
+    location: "Rome, Italy",
+    price: "$380/night",
+    rating: 4.5,
+    image: "imgs/rome.jpg",
+    tag: { text: "Historic Charm", color: "bg-brown-400 text-white" },
+    features: [
+      { name: "WiFi", color: "bg-gray-50 text-gray-600 ring-gray-500/10" },
+      { name: "City View", color: "bg-pink-50 text-pink-700 ring-pink-600/10" },
+      {
+        name: "Fine Dining",
+        color: "bg-yellow-50 text-yellow-800 ring-yellow-600/20",
+      },
+    ],
+  },
+  {
+    id: 16,
+    name: "Cape Town Oceanview",
+    location: "Cape Town, South Africa",
+    price: "$350/night",
+    rating: 4.7,
+    image: "imgs/capetown.jpg",
+    tag: { text: "Seaside Luxury", color: "bg-cyan-400 text-white" },
+    features: [
+      { name: "WiFi", color: "bg-gray-50 text-gray-600 ring-gray-500/10" },
+      {
+        name: "Ocean View",
+        color: "bg-blue-50 text-blue-600 ring-blue-500/10",
+      },
+      {
+        name: "Outdoor Pool",
+        color: "bg-indigo-50 text-indigo-700 ring-indigo-600/20",
+      },
+    ],
+  },
 ];
 
 // مكون لعرض بطاقة الفندق
@@ -55,8 +310,14 @@ const HotelCard = ({ hotel, favorites, toggleFavorite }) => (
     <div className="relative">
       <img
         src={hotel.image}
+        // src={hotel.image ? hotel.image : "/imgs/default-hotel.png"}
+        // src={hotel?.image || "/imgs/default-hotel.png"}
         alt={hotel.name}
         className="w-full h-full object-cover"
+        onError={(e) => {
+          e.target.onerror = null; // لمنع الدخول في حلقة لا نهائية
+          e.target.src = "/imgs/default-hotel.png"; // الصورة الافتراضية
+        }}
       />
       <div
         className={`absolute top-4 right-4 px-3 py-1 rounded-full font-bold ${hotel.tag.color}`}
@@ -105,9 +366,14 @@ const HotelCard = ({ hotel, favorites, toggleFavorite }) => (
           <button className="bg-blue-900 text-white px-3 py-2 rounded hover:bg-yellow-400">
             Book
           </button>
-          <button className="bg-gray-200 text-gray-700 px-3 py-2 rounded hover:bg-gray-300">
-            Details
-          </button>
+          <Link
+            to={`/hotel-details/${hotel.id}`}
+            // className="text-blue-600 mt-4 block"
+          >
+            <button className="bg-gray-200 text-gray-700 px-3 py-2 rounded hover:bg-gray-300">
+              View Details
+            </button>
+          </Link>
         </div>
       </div>
     </div>
@@ -121,7 +387,12 @@ const Hotels = () => {
   const [filterTag, setFilterTag] = useState("All");
   const [sortBy, setSortBy] = useState("default");
 
+  const [currentPage, setCurrentPage] = useState(0);
+  const hotelsPerPage = 4; // Number of hotels displayed per page
+
   const [favorites, setFavorites] = useState([]);
+
+  const { user } = useAuth();
 
   const toggleFavorite = useCallback((hotel) => {
     setFavorites((prevFavorites) =>
@@ -164,6 +435,16 @@ const Hotels = () => {
   const processedHotels =
     sortedHotels.length > 0 ? sortedHotels : filteredHotels;
 
+  // Pagination
+
+  // Calculate the hotels to display based on the current page
+  const offset = currentPage * hotelsPerPage;
+  const currentHotels = processedHotels.slice(offset, offset + hotelsPerPage);
+  // Function to handle page change
+  const handlePageClick = (data) => {
+    setCurrentPage(data.selected);
+  };
+
   return (
     <React.Fragment>
       <Header />
@@ -199,7 +480,7 @@ const Hotels = () => {
         </div>
 
         {/* Hotel Filter */}
-        <div className="flex mb-6 justify-center items-center space-x-4">
+        {/* <div className="flex mb-6 justify-center items-center space-x-4">
           <span className="text-lg font-semibold text-gray-800">
             Filter by:
           </span>
@@ -239,20 +520,123 @@ const Hotels = () => {
           >
             Popular
           </button>
-        </div>
-
-        <div className="flex mb-6 justify-center items-center space-x-4">
-          <span className="text-lg font-semibold text-gray-800">Sort by:</span>
-          <select
-            className="px-4 py-2 border rounded-lg bg-white"
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value)}
+          <button
+            className={`px-4 py-2 rounded-lg ${
+              filterTag === "Luxury Stay"
+                ? "bg-blue-400 text-white"
+                : "bg-gray-200"
+            }`}
+            onClick={() => setFilterTag("Luxury Stay")}
           >
-            <option value="default">Default</option>
-            <option value="price-low-high">Price: Low to High</option>
-            <option value="price-high-low">Price: High to Low</option>
-            <option value="rating-high-low">Rating: High to Low</option>
-          </select>
+            Luxury Stay
+          </button>
+        </div> */}
+        {/* Hotel Filter */}
+        {/* <div className="flex mb-6 justify-center items-center flex-wrap space-x-4">
+          <span className="text-lg font-semibold text-gray-800 mr-4">
+            Filter by:
+          </span>
+          {[
+            "All",
+            "Top Pick",
+            "Eco Friendly",
+            "Popular",
+            "Luxury Stay",
+            "Luxury Retreat",
+            "Romantic Escape",
+            "Adventure",
+            "Exclusive",
+            "Charming Stay",
+            "Best View",
+            "Urban Luxury",
+            "Mountain Retreat",
+            "City Central",
+            "Eco Adventure",
+          ].map((tag) => (
+            <button
+              key={tag}
+              className={`px-6 py-3 rounded-full text-lg font-semibold transition-all duration-300 ease-in-out ${
+                filterTag === tag
+                  ? "bg-gradient-to-r from-blue-600 to-blue-900 text-white shadow-lg"
+                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+              }`}
+              onClick={() => setFilterTag(tag)}
+            >
+              {tag}
+            </button>
+          ))}
+        </div> */}
+        {/* Hotel Filter */}
+        {/* <div className="flex mb-6 justify-center items-center flex-wrap space-x-4">
+          <span className="text-lg font-semibold text-gray-800 mr-4">
+            Filter by:
+          </span>
+          {hotelsData.map(({ tag }) => (
+            <button
+              key={tag.text}
+              className={`px-6 py-3 rounded-full text-lg font-semibold transition-all duration-300 ease-in-out ${
+                filterTag === tag.text
+                  ? `${tag.color} shadow-lg transform scale-105`
+                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+              }`}
+              onClick={() => setFilterTag(tag.text)}
+            >
+              {tag.text}
+            </button>
+          ))}
+        </div> */}
+
+        <div class="flex justify-center items-center gap-12 mb-8">
+          {/* Filter */}
+          <div class="w-96 h-auto bg-blue-100 rounded-xl p-6 shadow-lg flex flex-col justify-center items-center space-y-4 transform transition-all duration-300 hover:scale-105">
+            <FormControl variant="outlined" fullWidth>
+              <InputLabel>Filter by</InputLabel>
+              <Select
+                value={filterTag}
+                onChange={(e) => setFilterTag(e.target.value)}
+                label="Filter by"
+                sx={{
+                  borderRadius: "10px",
+                  "&:hover": { backgroundColor: "rgba(0, 0, 0, 0.08)" },
+                }}
+              >
+                <MenuItem
+                  key="all"
+                  value="All"
+                  sx={{ color: "black", fontWeight: "bold" }}
+                >
+                  All
+                </MenuItem>
+                {hotelsData.map(({ tag }) => (
+                  <MenuItem
+                    key={tag.text}
+                    value={tag.text}
+                    sx={{ color: tag.color }}
+                  >
+                    {tag.text}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </div>
+          {/* Sort */}
+          <div class="w-96 h-auto bg-green-100 rounded-xl p-6 shadow-lg flex flex-col justify-center items-center space-y-4 transform transition-all duration-300 hover:scale-105">
+            <div className="flex mb-6 justify-center items-center space-x-4">
+              <span className="text-lg font-semibold text-gray-800">
+                Sort by:
+              </span>
+              <select
+                className="px-6 py-2 border rounded-lg bg-white shadow-md transition-all duration-300 hover:bg-gray-100"
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+              >
+                <option value="default">Default</option>
+                <option value="price-low-high">Price: Low to High</option>
+                <option value="price-high-low">Price: High to Low</option>
+                <option value="rating-high-low">Rating: High to Low</option>
+              </select>
+            </div>
+          </div>
         </div>
 
         {/* Hotels Grid */}
@@ -271,7 +655,7 @@ const Hotels = () => {
           )}
         </div> */}
 
-        <div className="py-5 grid gap-y-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {/* <div className="py-5 grid gap-y-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {processedHotels.length === 0 ? (
             <div className="text-center py-24">No hotels found.</div>
           ) : (
@@ -288,13 +672,63 @@ const Hotels = () => {
               </div>
             ))
           )}
+        </div> */}
+
+        <div className="py-5 grid gap-y-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {currentHotels.length === 0 ? (
+            <div className="text-center py-24">No hotels found.</div>
+          ) : (
+            currentHotels.map((hotel) => (
+              <div
+                key={hotel.id}
+                className="transform transition duration-300 hover:scale-105 hover:shadow-lg max-w-xs w-full mx-auto"
+              >
+                <HotelCard
+                  hotel={hotel}
+                  favorites={favorites}
+                  toggleFavorite={toggleFavorite}
+                />
+              </div>
+            ))
+          )}
         </div>
 
-        <div className="text-center mt-8">
-          <button className="bg-blue-900 text-white px-6 py-3 rounded-lg hover:bg-yellow-400">
-            Load More Hotels
-          </button>
-        </div>
+        {/* Pagination */}
+        {user && (
+          <div className="flex justify-center mt-8">
+            <ReactPaginate
+              previousLabel={"Previous"}
+              nextLabel={"Next"}
+              breakLabel={"..."}
+              pageCount={Math.ceil(processedHotels.length / hotelsPerPage)}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={3}
+              onPageChange={handlePageClick}
+              containerClassName={"flex space-x-2"}
+              pageClassName={"px-4 py-2 border rounded-lg hover:bg-blue-300"}
+              activeClassName={"bg-blue-900 text-white"}
+              previousClassName={
+                "px-4 py-2 border rounded-lg hover:bg-blue-300"
+              }
+              nextClassName={"px-4 py-2 border rounded-lg hover:bg-blue-300"}
+            />
+          </div>
+        )}
+
+        {!user && (
+          <div className="text-center mt-8">
+            <button
+              className="bg-blue-900 text-white px-6 py-3 rounded-lg hover:bg-yellow-400"
+              onClick={() => {
+                toast.info("Please log in to access more features and hotels!");
+              }}
+            >
+              Load More Hotels
+            </button>
+          </div>
+        )}
+
+        <ToastContainer />
       </main>
 
       <Footer />
