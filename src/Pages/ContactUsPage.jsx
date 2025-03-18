@@ -3,277 +3,424 @@ import Header from "../Components/Layout/Header";
 import Footer from "../Components/Layout/Footer";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-
+import { motion } from "framer-motion";
 import {
-  FaPhone,
-  FaFax,
-  FaEnvelope,
-  FaClock,
   FaMapMarkerAlt,
-  FaExternalLinkAlt,
+  FaPhone,
+  FaEnvelope,
+  FaInstagram,
+  FaFacebookF,
+  FaTwitter,
+  FaPaperPlane,
+  FaCheckCircle,
 } from "react-icons/fa";
+import { FiSend } from "react-icons/fi";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Link } from "react-router-dom";
 
 const Contact = () => {
-  // Formik Setup
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
+  // Formik configuration
   const formik = useFormik({
-    initialValues: {
-      name: "",
-      email: "",
-      message: "",
-    },
+    initialValues: { name: "", email: "", message: "" },
     validationSchema: Yup.object({
-      name: Yup.string().required("Name is required"),
-      email: Yup.string()
-        .email("Invalid email format")
-        .required("Email is required"),
-      message: Yup.string().required("Message cannot be empty"),
+      name: Yup.string().required("Required"),
+      email: Yup.string().email("Invalid email").required("Required"),
+      message: Yup.string()
+        .min(20, "Minimum 20 characters")
+        .required("Required"),
     }),
-    onSubmit: (values, { resetForm }) => {
-      setIsSubmitting(true);
-      setTimeout(() => {
-        alert("Message Sent Successfully!");
+    onSubmit: async (values, { resetForm }) => {
+      try {
+        setIsSubmitted(true);
+
+        // Simulate API call
+        await new Promise((r) => setTimeout(r, 1500));
+
+        const messages =
+          JSON.parse(localStorage.getItem("contactMessages")) || [];
+        const newMessage = {
+          id: Date.now(),
+          ...values,
+          status: "new",
+          createdAt: new Date().toISOString(),
+          replies: [],
+        };
+
+        // Save form data to localStorage
+        // localStorage.setItem("contactForm", JSON.stringify(values));
+
+        localStorage.setItem(
+          "contactMessages",
+          JSON.stringify([...messages, newMessage])
+        );
+
+        // Show success toast
+        toast.success("Message sent successfully!", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+
         resetForm();
-        setIsSubmitting(false);
-      }, 1000);
-      // Perform action after form submission (e.g., send message to API)
+        setIsSubmitted(true);
+      } catch (error) {
+        toast.error("Failed to send message", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      } finally {
+        setTimeout(() => setIsSubmitted(false), 3000);
+      }
     },
   });
-
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
-
-  const handleSubscribe = (e) => {
-    e.preventDefault();
-    if (!email || !/\S+@\S+\.\S+/.test(email)) {
-      setMessage("❌ Please enter a valid email address.");
-      return;
-    }
-    setMessage("✅ Subscription successful! Thank you for joining.");
-    setEmail(""); // Clear input after submission
-  };
 
   return (
     <React.Fragment>
       <Header />
-
-      {/* Banner Section */}
-      <section
-        className="relative bg-cover bg-center h-96"
-        style={{
-          backgroundImage:
-            "url('imgs/room-interior-hotel-bedroom_23-2150683421.jpg')",
-        }}
-      >
-        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
-        <div className="container mx-auto relative z-10 flex items-center justify-center h-full">
-          <div className="text-center">
-            <h2 className="text-5xl text-white text-4xl font-bold mb-6">
-              Contact Us
-            </h2>
-            <div className="h-1 w-20 bg-yellow-400 mx-auto"></div>
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Form Section */}
-      <section className="py-16 bg-gray-100">
-        <div className="container mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center gap-12">
-          {/* Form */}
-          <div className="w-full md:w-1/2 bg-white p-8 rounded-lg shadow-lg animate-fadeIn">
-            <h2 className="text-3xl font-semibold mb-6 text-gray-800">
-              Love to hear from you. Get in touch!
-            </h2>
-            <form onSubmit={formik.handleSubmit} className="space-y-6">
-              {/* Name Field */}
-              <div>
-                <label
-                  htmlFor="name"
-                  className="mb-2 block text-gray-700 font-medium"
-                >
-                  Your Name
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.name}
-                  className="w-full border border-gray-300 rounded-lg p-3 focus:ring-blue-300 focus:outline-none focus:ring-4 focus:ring-yellow-400 focus:border-yellow-500 transition"
-                  placeholder="Your Name"
-                  {...formik.getFieldProps("name")}
-                  // autoFocus
-                />
-                {formik.touched.name && formik.errors.name ? (
-                  <div className="text-red-500 text-sm" aria-live="assertive">
-                    {formik.errors.name}
-                  </div>
-                ) : null}
-              </div>
-
-              {/* Email Field */}
-              <div>
-                <label
-                  htmlFor="email"
-                  className="mb-2 block text-gray-700 font-medium"
-                >
-                  Your Email
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  placeholder="Your Email"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.email}
-                  className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-4 focus:ring-yellow-400 focus:border-yellow-500 transition"
-                  {...formik.getFieldProps("email")}
-                />
-                {formik.touched.email && formik.errors.email ? (
-                  <div className="text-red-500 text-sm" aria-live="assertive">
-                    {formik.errors.email}
-                  </div>
-                ) : null}
-              </div>
-
-              {/* Message Field */}
-              <div>
-                <label
-                  htmlFor="message"
-                  className="mb-2 block text-gray-700 font-medium"
-                >
-                  Your Message
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  placeholder="Your Message"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.message}
-                  className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-4 focus:ring-yellow-400 focus:border-yellow-500 transition"
-                  {...formik.getFieldProps("message")}
-                ></textarea>
-                {formik.touched.message && formik.errors.message ? (
-                  <div className="text-red-500 text-sm" aria-live="assertive">
-                    {formik.errors.message}
-                  </div>
-                ) : null}
-              </div>
-
-              {/* Submit Button */}
-              <button
-                type="submit"
-                className={`w-full bg-blue-900 text-white px-5 py-3 rounded-md hover:bg-yellow disabled:opacity-50 flex items-center justify-center text-lg font-semibold transition duration-300 ${
-                  formik.isSubmitting
-                    ? "opacity-50 cursor-not-allowed"
-                    : "hover:bg-yellow-400 hover:text-black"
-                }`}
-                disabled={isSubmitting || !formik.isValid}
-                aria-busy={isSubmitting}
-              >
-                {formik.isSubmitting ? "Sending..." : "Send Message"}
-              </button>
-            </form>
-          </div>
-
-          {/* Info Section with Image */}
-          <div className="w-full md:w-1/2">
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 to-blue-900 overflow-x-hidden">
+        {/* Hero Section */}
+        <motion.section
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="relative h-screen flex items-center justify-center overflow-hidden"
+        >
+          <div className="absolute inset-0 z-0">
             <img
-              src="imgs/Our First Look at the Incredible St_ Regis Hong Kong - The Points Guy.jpeg"
-              alt="Hotel Room"
-              className="w-full h-auto rounded-lg shadow-lg transition transform hover:scale-105"
+              src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb"
+              alt="Luxury Hotel"
+              className="w-full h-full object-cover opacity-50"
             />
-          </div>
-        </div>
-      </section>
-
-      {/* Map Section */}
-      <section className="py-12 bg-gray-100">
-        <div className="container mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-3 gap-12">
-          {/* Map (Larger Column) */}
-          <div className="md:col-span-2 relative">
-            <iframe
-              title="Google Map Location"
-              className="w-full h-80 rounded-lg shadow-lg border border-gray-300"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.835434508576!2d144.95373631531577!3d-37.81627977975148!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d5df8f18d71%3A0x2b2f3b153c64e621!2sMelbourne%2C%20Australia!5e0!3m2!1sen!2sus!4v1633072801604!5m2!1sen!2sus"
-              allowFullScreen=""
-              loading="lazy"
-            ></iframe>
-
-            {/* Button to open map */}
-            <a
-              href="https://www.google.com/maps?q=Melbourne,Australia"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="absolute bottom-3 right-3 bg-yellow-500 text-white px-4 py-2 text-sm rounded-lg flex items-center gap-2 hover:bg-blue-900 transition"
-            >
-              View on Google Maps <FaExternalLinkAlt />
-            </a>
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/50 to-transparent" />
           </div>
 
-          {/* Contact Info (Smaller Column) */}
-          <div className="md:col-span-1">
-            <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
-              <FaMapMarkerAlt className="text-yellow-500" /> Info & Locations
-            </h3>
-
-            <div className="space-y-3 text-gray-600 text-sm md:text-base">
-              <p className="flex items-center gap-2">
-                <FaClock className="text-blue-500" />{" "}
-                <span>Open Hours: Monday – Sunday</span>
-              </p>
-              <p className="flex items-center gap-2">
-                <FaPhone className="text-green-500" />{" "}
-                <span>Telephone: +12345678999</span>
-              </p>
-              <p className="flex items-center gap-2">
-                <FaFax className="text-gray-500" />{" "}
-                <span>Fax: +12345678999</span>
-              </p>
-              <p className="flex items-center gap-2">
-                <FaEnvelope className="text-red-500" />{" "}
-                <span>Email: BookIn@email.com</span>
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Newsletter Section */}
-      <section className="py-12 bg-gray-200">
-        <div className="container mx-auto text-center">
-          <h2 className="text-2xl font-semibold mb-4">Join Our Newsletter</h2>
-          <p className="text-gray-600 mb-6">
-            Subscribe to receive the latest updates and offers.
-          </p>
-
-          <form
-            onSubmit={handleSubscribe}
-            className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4"
+          <motion.div
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            className="relative z-10 text-center text-white px-4"
           >
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
-              className="w-full sm:w-1/3 p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-yellow-400"
+            <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-amber-400 to-amber-600">
+              Contact Us
+            </h1>
+            <motion.div
+              initial={{ width: 0 }}
+              animate={{ width: "200px" }}
+              className="h-1 bg-amber-500 mx-auto mb-8 rounded-full"
             />
-            <button
-              type="submit"
-              className="bg-yellow-400 text-white px-6 py-3 rounded hover:bg-blue-900 transition-all"
+            <p className="text-lg sm:text-xl md:text-2xl text-amber-100 max-w-2xl mx-auto font-light">
+              Experience seamless communication with our luxury concierge team
+            </p>
+            <Link
+              to="/support-tickets"
+              className="mt-6 inline-block bg-amber-500 text-white px-6 py-3 rounded-lg font-bold hover:bg-amber-600 transition"
             >
-              📩 Subscribe
-            </button>
-          </form>
+              Go to Support Tickets
+            </Link>
+          </motion.div>
+        </motion.section>
 
-          {message && <p className="mt-4 text-sm text-gray-700">{message}</p>}
+        {/* Contact Grid */}
+        <section className="relative z-10 -mt-32 px-4 sm:px-6">
+          <div className="container mx-auto grid lg:grid-cols-3 gap-8 md:gap-12">
+            {/* Contact Form */}
+            <motion.div
+              whileHover={{ y: -10 }}
+              className="bg-white rounded-3xl shadow-2xl p-6 md:p-8 lg:col-span-2"
+            >
+              <div className="flex items-center gap-4 mb-8 md:mb-12">
+                <div className="p-3 md:p-4 bg-amber-500 rounded-xl">
+                  <FiSend className="text-2xl md:text-3xl text-white" />
+                </div>
+                <h2 className="text-2xl md:text-3xl font-bold text-slate-800">
+                  Send Message
+                </h2>
+              </div>
+
+              <form
+                onSubmit={formik.handleSubmit}
+                className="space-y-6 md:space-y-8"
+              >
+                {/* Form fields */}
+                <div className="space-y-4 md:space-y-6">
+                  <motion.div
+                    initial={{ x: -50, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                  >
+                    <label className="block text-slate-600 mb-2 font-medium">
+                      Full Name
+                    </label>
+                    <input
+                      name="name"
+                      className="w-full p-3 md:p-4 border-2 rounded-lg focus:outline-none focus:border-amber-500 transition"
+                      {...formik.getFieldProps("name")}
+                    />
+                    {formik.touched.name && formik.errors.name && (
+                      <p className="text-red-500 text-sm mt-1 flex items-center gap-2">
+                        <FaCheckCircle /> {formik.errors.name}
+                      </p>
+                    )}
+                  </motion.div>
+
+                  {/* Repeat similar structure for email and message fields */}
+
+                  {/* Email Field */}
+                  <motion.div
+                    initial={{ x: -50, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: 0.2 }}
+                  >
+                    <label className="block text-slate-600 mb-2 font-medium">
+                      Email Address
+                    </label>
+                    <input
+                      name="email"
+                      type="email"
+                      className="w-full p-3 md:p-4 border-2 rounded-lg focus:outline-none focus:border-amber-500 transition"
+                      {...formik.getFieldProps("email")}
+                    />
+                    {formik.touched.email && formik.errors.email && (
+                      <p className="text-red-500 text-sm mt-1 flex items-center gap-2">
+                        <FaCheckCircle /> {formik.errors.email}
+                      </p>
+                    )}
+                  </motion.div>
+
+                  {/* Message Field */}
+                  <motion.div
+                    initial={{ x: -50, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: 0.4 }}
+                  >
+                    <label className="block text-slate-600 mb-2 font-medium">
+                      Your Message
+                    </label>
+                    <textarea
+                      name="message"
+                      rows="5"
+                      className="w-full p-3 md:p-4 border-2 rounded-lg focus:outline-none focus:border-amber-500 transition"
+                      {...formik.getFieldProps("message")}
+                    ></textarea>
+                    {formik.touched.message && formik.errors.message && (
+                      <p className="text-red-500 text-sm mt-1 flex items-center gap-2">
+                        <FaCheckCircle /> {formik.errors.message}
+                      </p>
+                    )}
+                  </motion.div>
+                </div>
+
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  type="submit"
+                  disabled={formik.isSubmitting}
+                  className="w-full bg-amber-500 text-white py-3 md:py-4 px-6 rounded-lg font-bold text-lg transition-all flex items-center justify-center gap-3"
+                >
+                  {formik.isSubmitting ? (
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white" />
+                  ) : (
+                    <>
+                      <FaPaperPlane className="text-xl" />
+                      Send Message
+                    </>
+                  )}
+                </motion.button>
+              </form>
+            </motion.div>
+
+            {/* Contact Info */}
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-slate-800 rounded-3xl shadow-2xl p-6 md:p-8 text-white"
+            >
+              <div className="space-y-8 md:space-y-12">
+                <h2 className="text-2xl md:text-3xl font-bold text-amber-400">
+                  Contact Info
+                </h2>
+
+                {/* Contact details */}
+                <div className="space-y-4 md:space-y-6">
+                  <div className="flex items-start gap-3 md:gap-4">
+                    <div className="p-2 md:p-3 bg-amber-500/20 rounded-lg">
+                      <FaMapMarkerAlt className="text-xl md:text-2xl text-amber-400" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-base md:text-lg mb-1">
+                        Our Headquarters
+                      </h3>
+                      <p className="text-slate-300 text-sm md:text-base">
+                        123 Luxury Avenue
+                      </p>
+                      <p className="text-slate-300 text-sm md:text-base">
+                        Marina Bay, Singapore 098765
+                      </p>
+                    </div>
+                  </div>
+                  {/* Repeat for phone and email */}
+
+                  {/* Phone Section */}
+                  <div className="flex items-start gap-3 md:gap-4">
+                    <div className="p-2 md:p-3 bg-amber-500/20 rounded-lg">
+                      <FaPhone className="text-xl md:text-2xl text-amber-400" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-base md:text-lg mb-1">
+                        Phone Numbers
+                      </h3>
+                      <p className="text-slate-300 text-sm md:text-base">
+                        +65 6123 4567 (Main)
+                      </p>
+                      <p className="text-slate-300 text-sm md:text-base">
+                        +65 6878 9012 (24/7 Support)
+                      </p>
+                    </div>
+                  </div>
+                  {/* Email Section */}
+                  <div className="flex items-start gap-3 md:gap-4">
+                    <div className="p-2 md:p-3 bg-amber-500/20 rounded-lg">
+                      <FaEnvelope className="text-xl md:text-2xl text-amber-400" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-base md:text-lg mb-1">
+                        Email Addresses
+                      </h3>
+                      <p className="text-slate-300 text-sm md:text-base">
+                        reservations@luxuryhotel.com
+                      </p>
+                      <p className="text-slate-300 text-sm md:text-base">
+                        support@luxuryhotel.com
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Social media */}
+                <div className="pt-6 md:pt-8 border-t border-slate-700">
+                  <h3 className="text-base md:text-lg font-bold mb-4 text-amber-400">
+                    Follow Us
+                  </h3>
+                  <div className="flex gap-4 md:gap-6">
+                    {/* Social media icons */}
+                    <motion.a
+                      whileHover={{ y: -3 }}
+                      href="#"
+                      className="p-3 bg-slate-700 rounded-lg hover:bg-amber-500 transition"
+                    >
+                      <FaInstagram className="text-2xl" />
+                    </motion.a>
+                    <motion.a
+                      whileHover={{ y: -3 }}
+                      href="#"
+                      className="p-3 bg-slate-700 rounded-lg hover:bg-amber-500 transition"
+                    >
+                      <FaFacebookF className="text-2xl" />
+                    </motion.a>
+                    <motion.a
+                      whileHover={{ y: -3 }}
+                      href="#"
+                      className="p-3 bg-slate-700 rounded-lg hover:bg-amber-500 transition"
+                    >
+                      <FaTwitter className="text-2xl" />
+                    </motion.a>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Map Section */}
+        <div className="container mx-auto px-4 sm:px-6 py-12 md:py-20">
+          <div className="rounded-2xl overflow-hidden shadow-2xl relative h-[400px] md:h-[500px]">
+            <iframe
+              title="Hotel Location"
+              className="w-full h-full"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.797825676327!2d103.85839431475398!3d1.295514999054797!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31da1904937e1633%3A0x62099677b59fca76!2sMarina%20Bay%20Sands!5e0!3m2!1sen!2ssg!4v1658901234567!5m2!1sen!2ssg"
+              allowFullScreen
+              loading="lazy"
+            />
+          </div>
         </div>
-      </section>
 
+        {/* Newsletter Section */}
+        <div className="container mx-auto px-4 sm:px-6 pb-12 md:pb-20">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "50px" }}
+            className="bg-gradient-to-r from-amber-400 to-amber-600 rounded-2xl p-6 md:p-8 shadow-2xl relative overflow-hidden"
+          >
+            {/* Decorative Elements */}
+            <div className="absolute -right-20 -top-20 w-48 h-48 bg-white/10 rounded-full" />
+            <div className="absolute -right-40 -bottom-40 w-64 h-64 bg-white/10 rounded-full" />
+
+            <div className="relative z-10 text-center">
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
+                Luxury Updates
+              </h2>
+              <p className="text-amber-100 mb-6 md:mb-8 max-w-xl mx-auto text-sm md:text-base">
+                Subscribe to receive exclusive offers, VIP access, and curated
+                luxury experiences
+              </p>
+
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  const email = e.target.email.value;
+                  if (!/\S+@\S+\.\S+/.test(email)) {
+                    toast.error("Please enter a valid email address");
+                    return;
+                  }
+                  toast.success(
+                    "Successfully subscribed! Welcome to our luxury community"
+                  );
+                  e.target.reset();
+                }}
+                className="flex flex-col md:flex-row gap-4 max-w-2xl mx-auto"
+              >
+                <input
+                  name="email"
+                  type="email"
+                  placeholder="Enter your email"
+                  className="flex-1 p-3 md:p-4 rounded-xl border-2 border-white/20 bg-white/10 text-white placeholder-amber-100 focus:outline-none focus:border-white"
+                />
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  type="submit"
+                  className="bg-white text-amber-600 px-6 py-3 md:py-4 rounded-xl font-semibold hover:bg-gray-100 transition-colors"
+                >
+                  Subscribe Now
+                </motion.button>
+              </form>
+            </div>
+          </motion.div>
+        </div>
+        {/* Toast Notifications Container - Add at root level */}
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored"
+        />
+      </div>
       <Footer />
     </React.Fragment>
   );

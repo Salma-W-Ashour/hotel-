@@ -9,7 +9,7 @@ import {
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Select from "react-select";
-import { ToastContainer, toast } from "react-toastify"; // إضافة الاستيراد
+import { ToastContainer, toast } from "react-toastify";
 
 const roomOptions = [
   { value: "standard", label: "Standard Room" },
@@ -38,6 +38,40 @@ const BookingDetails = ({ onNext }) => {
 
   const handleSelectChange = (selectedOption) => {
     setFormData({ ...formData, roomType: selectedOption });
+  };
+
+  const handleCheckInChange = (date) => {
+    const currentDate = new Date(); // Get today's date
+    const currentYear = currentDate.getFullYear(); // Get current year
+    const selectedYear = date.getFullYear(); // Get selected year
+
+    // Check if the check-in date is in the previous year
+    if (selectedYear < currentYear) {
+      toast.error("Check-in date cannot be in the previous year.");
+      return;
+    }
+
+    // Check if the check-in date is in the future
+    if (date > currentDate) {
+      toast.error("Check-in date cannot be in the future.");
+      return;
+    }
+
+    // Check if check-in is after check-out date
+    if (formData.checkOut && date > formData.checkOut) {
+      toast.error("Check-in date must be before the check-out date.");
+      return;
+    }
+
+    setFormData({ ...formData, checkIn: date });
+  };
+
+  const handleCheckOutChange = (date) => {
+    if (formData.checkIn && date < formData.checkIn) {
+      toast.error("Check-out date must be after the check-in date.");
+      return;
+    }
+    setFormData({ ...formData, checkOut: date });
   };
 
   const handleNext = () => {
@@ -86,7 +120,8 @@ const BookingDetails = ({ onNext }) => {
             <FaCalendarAlt className="mr-2 text-gray-500" />
             <DatePicker
               selected={formData.checkIn}
-              onChange={(date) => setFormData({ ...formData, checkIn: date })}
+              // onChange={(date) => setFormData({ ...formData, checkIn: date })}
+              onChange={handleCheckInChange}
               placeholderText="Check-in Date"
               className="w-full"
             />
@@ -95,7 +130,8 @@ const BookingDetails = ({ onNext }) => {
             <FaCalendarAlt className="mr-2 text-gray-500" />
             <DatePicker
               selected={formData.checkOut}
-              onChange={(date) => setFormData({ ...formData, checkOut: date })}
+              // onChange={(date) => setFormData({ ...formData, checkOut: date })}
+              onChange={handleCheckOutChange}
               placeholderText="Check-out Date"
               className="w-full"
             />
@@ -186,7 +222,8 @@ const BookingDetails = ({ onNext }) => {
           </button>
         </form>
       </div>
-      <ToastContainer /> {/* إضافة ToastContainer لعرض الرسائل */}
+      {/* ToastContainer to display toast notifications */}
+      <ToastContainer />
     </div>
   );
 };

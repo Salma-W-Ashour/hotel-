@@ -11,6 +11,7 @@ import Services from "./Pages/OurServicesPage";
 import Hotels from "./Pages/HotelsPage";
 import Contact from "./Pages/ContactUsPage";
 import NotFoundPage from "./Pages/NotFoundPage"; // صفحة خطأ 404
+import Notifications from "./Pages/Notifications"; // صفحة خطأ 404
 
 import BookingDetails from "./Pages/BookingDetails";
 import { PaymentPage, ConfirmationPage } from "./Pages/PaymentPage";
@@ -19,11 +20,12 @@ import ThankYouPage from "./Pages/ThankYouPage";
 import AdminRoutes from "./Admin/Routes/AdminRoutes";
 // import AdminLayout from "./Admin/Layout/AdminLayout";
 
-import { AuthProvider } from "./Auth/context/AuthContext";
+import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
 
 import HotelDetails from "./Pages/HotelDetailsPage";
 import MyBookingsPage from "./Pages/MyBookingsPage";
+import SupportTicketsPage from "./Pages/SupportTicketsPage";
 
 const App = () => {
   const [bookingData, setBookingData] = useState(null);
@@ -34,8 +36,7 @@ const App = () => {
     console.log("Next Step Data:", formData);
     setBookingData(formData);
 
-    // حفظ البيانات في localStorage
-  localStorage.setItem("currentBooking", JSON.stringify(formData));
+    localStorage.setItem("currentBooking", JSON.stringify(formData));
 
     navigate("/payment");
   };
@@ -45,6 +46,10 @@ const App = () => {
     navigate("/confirmation");
   };
 
+  if (!localStorage.getItem("bookings")) {
+    localStorage.setItem("bookings", JSON.stringify([]));
+  }
+
   return (
     <AuthProvider>
       <Routes>
@@ -52,9 +57,9 @@ const App = () => {
         <Route
           path="/admin/*"
           element={
-            <ProtectedRoute adminOnly>
-              <AdminRoutes />
-            </ProtectedRoute>
+            // <ProtectedRoute adminOnly>
+            <AdminRoutes />
+            // </ProtectedRoute>
           }
         />
 
@@ -72,6 +77,7 @@ const App = () => {
         <Route path="/hotels" element={<Hotels />} />
         <Route path="/services" element={<Services />} />
         <Route path="/contact-us" element={<Contact />} />
+        <Route path="/notifications" element={<Notifications />} />
 
         <Route path="/sign-in" element={<LoginPage />} />
         <Route path="/sign-up" element={<SignUpPage />} />
@@ -124,7 +130,15 @@ const App = () => {
           }
         />
 
-        {/* <Route path="/admin/*" element={<AdminRoutes />} /> */}
+        <Route
+          path="/support-tickets"
+          element={
+            <ProtectedRoute>
+              <SupportTicketsPage />
+            </ProtectedRoute>
+          }
+        />
+
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </AuthProvider>
