@@ -26,6 +26,7 @@ import {
   Box,
   InputAdornment,
 } from "@mui/material";
+import { FiUser } from "react-icons/fi";
 import { Edit, Delete, Add, Search, Close } from "@mui/icons-material";
 import { motion } from "framer-motion";
 
@@ -87,6 +88,8 @@ const UserForm = ({ user, onSave, onClose }) => {
       phone: "",
       role: "User",
       status: "Active",
+      password: "",
+      confirmPassword: "",
       avatar: `https://i.pravatar.cc/150?u=${Date.now()}`,
     }
   );
@@ -121,6 +124,21 @@ const UserForm = ({ user, onSave, onClose }) => {
 
     if (!formData.role) newErrors.role = "Role is required";
     if (!formData.status) newErrors.status = "Status is required";
+
+    // Validate password
+    if (!formData.password.trim()) {
+      newErrors.password = "Password is required";
+    } else if (formData.password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters";
+    }
+
+    // Validate confirm password
+    if (!formData.confirmPassword.trim()) {
+      newErrors.confirmPassword = "Confirm Password is required";
+    } else if (formData.confirmPassword !== formData.password) {
+      newErrors.confirmPassword = "Passwords do not match";
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -209,6 +227,30 @@ const UserForm = ({ user, onSave, onClose }) => {
             <MenuItem value="Pending">Pending</MenuItem>
             <MenuItem value="Inactive">Inactive</MenuItem>
           </Select>
+
+          {/* Password fields */}
+          <TextField
+            label="Password"
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            error={!!errors.password}
+            helperText={errors.password}
+            fullWidth
+            required
+          />
+          <TextField
+            label="Confirm Password"
+            type="password"
+            name="confirmPassword"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            error={!!errors.confirmPassword}
+            helperText={errors.confirmPassword}
+            fullWidth
+            required
+          />
         </Box>
       </DialogContent>
       <DialogActions>
@@ -265,6 +307,18 @@ const UserList = () => {
   }, []);
 
   const handleDelete = useCallback((id) => {
+    const userToDelete = users.find((user) => user.id === id);
+
+    // تحقق من إذا كان المستخدم هو الأدمن
+    if (userToDelete.role.trim().toLowerCase() === "admin") {
+      setSnackbar({
+        open: true,
+        message: "Cannot delete the admin!",
+        severity: "error",
+      });
+      return; // لا تتابع الحذف
+    }
+
     setUsers((prev) => prev.filter((user) => user.id !== id));
     setSnackbar({
       open: true,
@@ -279,8 +333,9 @@ const UserList = () => {
       sx={{ p: 3, borderRadius: 4, boxShadow: 3, overflow: "hidden", mt: 4 }}
     >
       <Box display="flex" flexDirection="column" gap={2} mb={2}>
+        <FiUser className="text-blue-600" />
         <Typography variant="h4" fontWeight="bold">
-          User Management
+          User Account Management
         </Typography>
 
         <Box

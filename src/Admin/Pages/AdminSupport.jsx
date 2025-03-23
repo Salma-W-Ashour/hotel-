@@ -472,7 +472,7 @@ const AdminSupport = () => {
                   <div className="flex justify-between items-start">
                     <div>
                       <h3 className="font-semibold">{message.name}</h3>
-                      <p className="text-sm text-gray-600 truncate">
+                      <p className="text-sm text-gray-600 truncate w-40 mt-3 mb-1 whitespace-normal">
                         {message.message}
                       </p>
                     </div>
@@ -516,7 +516,7 @@ const AdminSupport = () => {
                   <div className="flex justify-between items-start">
                     <div>
                       <h3 className="font-semibold">{ticket.issue}</h3>
-                      <p className="text-sm text-gray-600 truncate">
+                      <p className="text-sm text-gray-600 truncate w-40 mt-3 mb-1 whitespace-normal">
                         {ticket.description}
                       </p>
                     </div>

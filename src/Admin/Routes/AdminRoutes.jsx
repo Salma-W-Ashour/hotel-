@@ -8,6 +8,7 @@ import AdminProfile from "../Settings/AdminProfile";
 import HotelPage from "../Pages/HotelPage";
 import AdminSupport from "../Pages/AdminSupport";
 import AdminCoupons from "../Pages/AdminCoupons";
+import BookingList from "../Users/BookingList";
 
 const AdminRoutes = () => {
   return (
@@ -21,6 +22,7 @@ const AdminRoutes = () => {
         <Route path="settings" element={<AdminProfile />} />
         <Route path="support" element={<AdminSupport />} />
         <Route path="coupons" element={<AdminCoupons />} />
+        <Route path="bookings" element={<BookingList />} />
       </Route>
     </Routes>
   );

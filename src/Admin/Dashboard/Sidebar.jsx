@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
   FaUser,
@@ -9,8 +9,10 @@ import {
   FaBars,
   FaTimes,
   FaTag,
+  FaList,
 } from "react-icons/fa";
 import { RiServiceFill } from "react-icons/ri";
+import { BsListTask } from "react-icons/bs";
 import { FiSettings } from "react-icons/fi";
 import { useTheme } from "../../context/ThemeContext";
 
@@ -55,27 +57,20 @@ const Sidebar = () => {
         } ${darkMode ? "bg-gray-900 text-white" : "bg-gray-800 text-white"}`}
       >
         <h2 className="text-xl font-semibold mb-5 text-center">Admin Panel</h2>
-        <ul className="space-y-4">
+        <ul className="space-y-4 pt-6">
           {[
             { to: "/admin", icon: <FaHome />, label: "Dashboard" },
             { to: "/admin/hotels", icon: <FaHotel />, label: "Hotels" },
-            {
-              to: "/admin/reservations",
-              icon: <FaClipboardList />,
-              label: "Reservations",
-            },
-            {
-              to: "/admin/services",
-              icon: <RiServiceFill />,
-              label: "Services",
-            },
+            { to: "/admin/bookings", icon: <FaList />, label: "Bookings" }, // <BsListTask />
+            // { to: "/admin/reservations", icon: <FaClipboardList />, label: "Reservations" },
+            { to: "/admin/services", icon: <RiServiceFill />, label: "Services" },
             {
               to: "/admin/coupons",
               icon: <FaTag />,
               label: "Coupons",
             },
             { to: "/admin/users", icon: <FaUser />, label: "Users" },
-            { to: "/admin/settings", icon: <FaCogs />, label: "Settings" },
+            // { to: "/admin/settings", icon: <FaCogs />, label: "Settings" },
             {
               to: "/admin/support",
               icon: <FiSettings />,
@@ -85,12 +80,12 @@ const Sidebar = () => {
             <li key={index}>
               <Link
                 to={item.to}
-                className={`flex items-center gap-3 p-3 rounded-lg transition ${
+                className={`flex items-center gap-3 p-3 rounded-lg transition duration-300 rounded-r hover:-translate-y-1/12 ${
                   location.pathname === item.to
-                    ? "bg-blue-500 text-white" // ستايل العنصر النشط
+                    ? "bg-blue-600 text-white shadow-lg" // ستايل العنصر النشط
                     : darkMode
-                    ? "hover:bg-gray-700"
-                    : "hover:bg-gray-600"
+                    ? "hover:bg-gray-700 text-gray-300"
+                    : "hover:bg-gray-600 text-gray-300"
                 }`}
                 onClick={() => setIsOpen(false)}
               >
@@ -104,4 +99,5 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+// export default Sidebar;
+export default React.memo(Sidebar);
