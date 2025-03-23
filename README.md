@@ -3,7 +3,7 @@
     <img width="50%" src="https://github.com/rebhi-2002/ReactJS/blob/main/assets/ReactJS-unscreen.gif" alt="ReactJS Logo" />
   </a>
 
-  <h1 href="https://react.dev"># Hotel Booking Management System 🏨</h1>
+  <h1 href="https://react.dev">🏨 Hotel Booking Management System</h1>
   <p>A full-stack hotel booking management system with modern UI/UX, secure authentication, and real-time booking capabilities.</p>
   <br />
 
@@ -110,12 +110,15 @@ npm start
 ## Sign in to continue your journey
 
 ### Username
+
 - ✅ Required (Username is required)
 
 ### Email
+
 - ✅ Required (Email is required)
 
 ### Password
+
 - ✅ Must be at least **6 characters long** (Password must be at least 6 characters)
 
 ## Test Accounts
@@ -296,6 +299,8 @@ npm install react react-dom next react-router-dom react-redux @reduxjs/toolkit @
 - يمكنك تثبيت كل مجموعة على حدة باستخدام الأوامر المخصصة لها.
 - أو يمكنك تثبيت جميع المكتبات دفعة واحدة باستخدام الأمر الأخير.
 
+<hr />
+
 | Package Name                | Version  | npm Link                                                                                                                      | Package Name               | Version  | npm Link                                                                                                                    |
 | --------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------- | -------------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------- |
 | @dnd-kit/core               | ^6.3.1   | [![npm](https://img.shields.io/npm/v/@dnd-kit/core)](https://www.npmjs.com/package/@dnd-kit/core)                             | @dnd-kit/sortable          | ^10.0.0  | [![npm](https://img.shields.io/npm/v/@dnd-kit/sortable)](https://www.npmjs.com/package/@dnd-kit/sortable)                   |
@@ -335,6 +340,27 @@ npm install react react-dom next react-router-dom react-redux @reduxjs/toolkit @
 | stream-browserify           | ^3.0.0   | [![npm](https://img.shields.io/npm/v/stream-browserify)](https://www.npmjs.com/package/stream-browserify)                     | stripe                     | ^17.7.0  | [![npm](https://img.shields.io/npm/v/stripe)](https://www.npmjs.com/package/stripe)                                         |
 | styled-components           | ^6.1.15  | [![npm](https://img.shields.io/npm/v/styled-components)](https://www.npmjs.com/package/styled-components)                     | use-sound                  | ^5.0.0   | [![npm](https://img.shields.io/npm/v/use-sound)](https://www.npmjs.com/package/use-sound)                                   |
 | web-vitals                  | ^2.1.4   | [![npm](https://img.shields.io/npm/v/web-vitals)](https://www.npmjs.com/package/web-vitals)                                   | yup                        | ^1.6.1   | [![npm](https://img.shields.io/npm/v/yup)](https://www.npmjs.com/package/yup)                                               |
+
+## 👥 Team Members
+
+📌 Project Lead & Full-Stack Developer
+
+- **[Salma W. Ashour](https://github.com/Salma-W-Ashour)**
+  📌 Frontend Developer & UI/UX Designer
+  🎨 Styling & Animations | 🔒 Authentication
+
+- **[Osama H.](https://github.com/Osama-H/Nest-HotelAPI)**
+  📌 Backend Developer
+  🔗 Built interactive API references with Swagger
+  🛠️ API Integration | 💳 Payment Gateway
+
+- **[Rebhe A. Ibrahim](https://github.com/rebhi-2002)**
+  📌 Full-Stack JavaScript Developer
+  🔨 Core Architecture | 🧩 State Management
+
+  - **[Duha Ahmad](https://github.com/Duha-ahmad)**
+    📌 Technical Writer & Documentation Lead
+    ✍️ Wrote 90% of the project documentation
 
 ## Contribution
 
