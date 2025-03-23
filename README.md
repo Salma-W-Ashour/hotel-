@@ -215,7 +215,7 @@ In this project, we are using the following libraries and versions:
   },
 ```
 
-## 🌍 dependencies.md
+## 🌍 dependencies
 
 👉️ تثبيت Dependencies
 
@@ -342,8 +342,6 @@ npm install react react-dom next react-router-dom react-redux @reduxjs/toolkit @
 | web-vitals                  | ^2.1.4   | [![npm](https://img.shields.io/npm/v/web-vitals)](https://www.npmjs.com/package/web-vitals)                                   | yup                        | ^1.6.1   | [![npm](https://img.shields.io/npm/v/yup)](https://www.npmjs.com/package/yup)                                               |
 
 ## 👥 Team Members
-
-📌 Project Lead & Full-Stack Developer
 
 - **[Salma W. Ashour](https://github.com/Salma-W-Ashour)**  
   📌 Frontend Developer & UI/UX Designer  
