@@ -345,22 +345,22 @@ npm install react react-dom next react-router-dom react-redux @reduxjs/toolkit @
 
 📌 Project Lead & Full-Stack Developer
 
-- **[Salma W. Ashour](https://github.com/Salma-W-Ashour)**
-  📌 Frontend Developer & UI/UX Designer
+- **[Salma W. Ashour](https://github.com/Salma-W-Ashour)**  
+  📌 Frontend Developer & UI/UX Designer  
   🎨 Styling & Animations | 🔒 Authentication
 
-- **[Osama H.](https://github.com/Osama-H/Nest-HotelAPI)**
-  📌 Backend Developer
-  🔗 Built interactive API references with Swagger
+- **[Osama H.](https://github.com/Osama-H/Nest-HotelAPI)**  
+  📌 Backend Developer  
+  🔗 Built interactive API references with Swagger  
   🛠️ API Integration | 💳 Payment Gateway
 
-- **[Rebhe A. Ibrahim](https://github.com/rebhi-2002)**
-  📌 Full-Stack JavaScript Developer
+- **[Rebhe A. Ibrahim](https://github.com/rebhi-2002)**  
+  📌 Full-Stack JavaScript Developer  
   🔨 Core Architecture | 🧩 State Management
 
-  - **[Duha Ahmad](https://github.com/Duha-ahmad)**
-    📌 Technical Writer & Documentation Lead
-    ✍️ Wrote 90% of the project documentation
+- **[Duha Ahmad](https://github.com/Duha-ahmad)**  
+  📌 Technical Writer & Documentation Lead  
+  ✍️ Wrote 90% of the project documentation
 
 ## Contribution
 
